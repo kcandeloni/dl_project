@@ -1,0 +1,192 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              Int               @id @default(autoincrement())
+  email           String            @unique @db.VarChar(255)
+  password        String            @db.VarChar(255)
+  active          Boolean           @default(true)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  Session         Session[]
+  Enrollment      Enrollment[]
+  Avatar          Avatar[]
+  Game            Game[]
+  Stage           Stage[]
+  UserItem        UserItem[]
+  Vote            Vote[]
+}
+
+model Session {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  User      User     @relation(fields: [userId], references: [id])
+  token     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Enrollment {
+  id        Int       @id @default(autoincrement())
+  name      String    @db.VarChar(255)
+  birthday  DateTime
+  userId    Int       @unique
+  User      User      @relation(fields: [userId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Avatar {
+  id        Int      @id @default(autoincrement())
+  nick      String   @db.VarChar(255)
+  stamina   Int
+  mana      Int
+  level     Int
+  xp        Int
+  gold      Int
+  identity  Gender
+  breed     Races
+  class     Classes
+  skill     Skills
+  userId    Int
+  User      User     @relation(fields: [userId], references: [id])
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  EquipItem EquipItem[]
+  AvatarGame  AvatarGame[]
+}
+
+enum Gender {
+  MALE
+  FAMELE
+}
+
+enum Races {
+  HUMAN
+  ELF
+  DWARF
+  HALF_ORC
+}
+
+enum Classes {
+  KNIGHT
+  CLERIC
+  SORCERER
+  ROGUE
+}
+
+enum Skills {
+  BERSEKER
+  SHIELD_OF_FAITH
+  CLAIRVOYANCE
+  INVISIBILITY
+  STEALTH
+}
+
+model Game {
+  id        Int       @id @default(autoincrement())
+  name      String    @db.VarChar(255)
+  level     Int
+  description String
+  userId    Int       
+  User      User      @relation(fields: [userId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  AvatarGame  AvatarGame[]
+  GameStage GameStage[]
+  Vote      Vote[]
+}
+
+model AvatarGame {
+  id        Int       @id @default(autoincrement())
+  stage     String    @db.VarChar(255)
+  finished  Boolean   @default(false)
+  position  Int       @default(1)
+  skill     Boolean   @default(false)
+  avatarId  Int       
+  Avatar    Avatar      @relation(fields: [avatarId], references: [id])
+  gameId    Int       
+  Game      Game      @relation(fields: [gameId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Stage {
+  id        Int       @id @default(autoincrement())
+  name      String    @db.VarChar(255)
+  options   String
+  description String
+  objects   String
+  refStageId  Int
+  userId    Int       
+  User      User      @relation(fields: [userId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  GameStage GameStage[]
+}
+
+model GameStage {
+  id        Int       @id @default(autoincrement())
+  position  Int
+  gameId    Int       
+  Game      Game      @relation(fields: [gameId], references: [id])
+  stageId   Int       
+  Stage     Stage     @relation(fields: [stageId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Item {
+  id        Int       @id @default(autoincrement())
+  name      String
+  type      String
+  effect    String
+  price     Int
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  UserItem  UserItem[]
+  EquipItem EquipItem[]
+}
+
+model UserItem {
+  id        Int       @id @default(autoincrement())
+  userId    Int       
+  User      User      @relation(fields: [userId], references: [id])
+  itemId    Int       @unique
+  Item      Item      @relation(fields: [itemId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model EquipItem {
+  id        Int       @id @default(autoincrement())
+  avatarId  Int       
+  Avatar    Avatar    @relation(fields: [avatarId], references: [id])
+  amuletId  Int       @unique
+  handRigthId Int     @unique
+  handLeftId  Int     @unique
+  Item      Item      @relation(fields: [amuletId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Vote {
+  id        Int       @id @default(autoincrement())
+  note      Int
+  post      String
+  userId    Int       
+  User      User      @relation(fields: [userId], references: [id])
+  gameId    Int       
+  Game      Game      @relation(fields: [gameId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
