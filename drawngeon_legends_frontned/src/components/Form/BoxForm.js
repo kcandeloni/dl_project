@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
 export default styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    margin: 8px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 8px 0;
   p{
     color: rgb(255, 72, 72);
     font-size: 0.75rem;

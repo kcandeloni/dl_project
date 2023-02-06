@@ -22,6 +22,7 @@ export default function App() {
               <Routes>
                 <Route path="/" element={<Home currentPage={"signIn"} />} />
                 <Route path="/sign-up" element={<Home currentPage={"signUp"} />} />
+                <Route path="/about" element={<div></div>} />
 
                 <Route
                   path="/page"
@@ -32,12 +33,18 @@ export default function App() {
                   }
                 >
                   <Route path="status" element={<div>Status</div>} />
-                  <Route path="game" element={<div>Game</div>} />
-                  <Route path="avatar" element={<div></div>} />
-                  <Route path="stage" element={<div></div>} />
+                  <Route path="games" element={<div>Game</div>} />
+                  <Route path="game/:gameId" element={<div>Game</div>} />
+                  <Route path="avatars" element={<div></div>} />
+                  <Route path="avatar/:avatarId" element={<div></div>} />
+                  <Route path="stages" element={<div></div>} />
+                  <Route path="stage/:stageId" element={<div></div>} />
                   <Route path="store" element={<div></div>} />
+                  <Route path="store/:itemId" element={<div></div>} />
+                  <Route path="enrollment" element={<div></div>} />
                   <Route index path="*" element={<Navigate to="/page/status" />} />
                 </Route>
+
               </Routes>
             </Router>
           </ ThemeProvider>
