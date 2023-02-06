@@ -3,6 +3,7 @@ import { QueryClientProvider, QueryClient } from "react-query";
 import { ToastContainer } from "react-toastify";
 
 import { UserProvider } from "./contexts/UserContext";
+import { ThemeProvider } from "./contexts/ThemeContex";
 
 import useToken from "./hooks/useToken";
 
@@ -16,28 +17,30 @@ export default function App() {
       <ToastContainer />
       <QueryClientProvider client={queryClient}>
         <UserProvider>
-          <Router>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/sign-in" element={<div></div>} />
+          <ThemeProvider>
+            <Router>
+              <Routes>
+                <Route path="/" element={<Home currentPage={"signIn"} />} />
+                <Route path="/sign-up" element={<Home currentPage={"signUp"} />} />
 
-              <Route
-                path="/page"
-                element={
-                  <ProtectedRouteGuard>
-                    <Header />
-                  </ProtectedRouteGuard>
-                }
-              >
-                <Route path="status" element={<div>Status</div>} />
-                <Route path="game" element={<div>Game</div>} />
-                <Route path="avatar" element={<div></div>} />
-                <Route path="stage" element={<div></div>} />
-                <Route path="store" element={<div></div>} />
-                <Route index path="*" element={<Navigate to="/page/status" />} />
-              </Route>
-            </Routes>
-          </Router>
+                <Route
+                  path="/page"
+                  element={
+                    <ProtectedRouteGuard>
+                      <Header />
+                    </ProtectedRouteGuard>
+                  }
+                >
+                  <Route path="status" element={<div>Status</div>} />
+                  <Route path="game" element={<div>Game</div>} />
+                  <Route path="avatar" element={<div></div>} />
+                  <Route path="stage" element={<div></div>} />
+                  <Route path="store" element={<div></div>} />
+                  <Route index path="*" element={<Navigate to="/page/status" />} />
+                </Route>
+              </Routes>
+            </Router>
+          </ ThemeProvider>
         </UserProvider>
       </QueryClientProvider>
     </>
