@@ -1,20 +1,13 @@
 export const lightTheme = {
-  body: "#ffffff",
-  text: "#000000",
+  body: "#f1f1f1",
+  text: "#0f0f0f",
   button: "#f7b10a",
   header: "$f7b10a",
 };
 
 export const darkTheme = {
-  body: "#000000",
-  text: "#ffffff",
+  body: "#0f0f0f",
+  text: "##f1f1f1",
   button: "#f7b10a",
   header: "#f7b10a",
-};
-
-export const colorSchema = {
-  icon: "#f7b10a",
-  backgroundMenu: "#2f1e15",
-  backgroundtext: "#ebdec2"
-
 };

@@ -1,7 +1,9 @@
 import { useNavigate } from "react-router-dom";
-
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { GiSharpAxe } from "react-icons/gi";
 
+import CustomIcon from "../common/CustomIcon";
 import ContainerForm from "./ContainerForm";
 import BoxForm from "./BoxForm";
 import Button from "./ButtonFrom";
@@ -10,6 +12,7 @@ import Link from "./Link";
 import { signUpAPI } from "../../services/userAPI";
 
 export function SignUp() {
+  const [loading, SetLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -22,11 +25,14 @@ export function SignUp() {
   const navigate = useNavigate();
 
   async function onSubmit(newUser) {
+    SetLoading(true);
     const { email, password } = newUser;
     try {
       await signUpAPI({ email, password });
+      SetLoading(false);
       navigate("/");
     } catch (error) {
+      SetLoading(false);
       console.log(error);
     }
   }
@@ -92,7 +98,15 @@ export function SignUp() {
           )}
         </ BoxForm>
 
-        <Button disabled={false} onClick={() => handleSubmit(onSubmit)()}>Sign Up</Button>
+        {loading ?
+          <Button>
+            <CustomIcon>
+              <GiSharpAxe />
+            </ CustomIcon>
+          </Button>
+          :
+          <Button disabled={false} onClick={() => handleSubmit(onSubmit)()}>SIGN UP</Button>
+        }
 
       </ContainerForm>
       <Link to="/">Sign in to an existing account</Link>

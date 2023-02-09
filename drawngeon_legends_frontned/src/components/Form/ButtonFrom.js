@@ -2,27 +2,30 @@ import styled from "styled-components";
 
 export default function Button({ variant = "contained", children, ...props }) {
   return (
-    <StyledMuiButton variant={variant} {...props}>
+    <StyledButton variant={variant} {...props}>
       {children}
-    </StyledMuiButton>
+    </StyledButton>
   );
 }
 
-const StyledMuiButton = styled.div`
+const StyledButton = styled.div`
   margin: 12px auto;
+  column-gap: 12px;
   font-size: 16px;
   text-align: center;
   background: rgba(0,0,0,.2);
-  border: 1px solid #f7b10a;
-  color: #f7b10a;
-  text-transform: uppercase;
+  border: 1px solid var(--icon);
+  color: var(--icon);
   -webkit-transition: all .2s,color .2s;
   transition: all .2s,color .2s;
   cursor: pointer;
   &:hover{
-    background-color:#b0682a;
-    border-color: #b0682a;
+    background-color: var(--selectButton);
+    border-color: var(--selectButton);
   }
   border-radius: 5px;
-  padding: 12px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;

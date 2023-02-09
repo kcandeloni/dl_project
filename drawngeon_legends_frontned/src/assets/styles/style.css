@@ -1,5 +1,15 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,700;0,900;1,500&display=swap");
-
+:root {
+  --icon: #f7b10a;
+  --selectButton: #b0682a;
+  --backgroundMenu: #2f1e15;
+  --backgroundtext: #ebdec2;
+  --borderMenu: #352015;
+  --error: #ff4948;
+  --backgroundDark: #444444;
+  --placeholder: #999999;
+  --textInput: #eeeeee;
+}
 * {
   box-sizing: border-box;
   transition: all ease .2s;

@@ -1,7 +1,13 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { GiSharpAxe } from "react-icons/gi";
+import { FcGoogle } from "react-icons/fc";
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { auth } from "../../services/firebase/firebase";
 
+import { signInOauthAPI } from "../../services/oauthAPI";
+import CustomIcon from "../common/CustomIcon";
 import UserContext from "../../contexts/UserContext";
 import ContainerForm from "./ContainerForm";
 import BoxForm from "./BoxForm";
@@ -11,6 +17,7 @@ import Link from "./Link";
 import { signInAPI } from "../../services/userAPI";
 
 export function SignIn() {
+  const [loading, SetLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -21,14 +28,34 @@ export function SignIn() {
   const navigate = useNavigate();
 
   async function onSubmit(newUser) {
+    SetLoading(true);
     const { email, password } = newUser;
     try {
       const userData = await signInAPI({ email, password });
       setUserData(userData);
+      SetLoading(false);
       navigate("/page/status");
     } catch (error) {
       console.log(error);
+      SetLoading(false);
     }
+  }
+
+  function signInWithGoogle() {
+    const provider = new GoogleAuthProvider();
+
+    signInWithPopup(auth, provider)
+      // eslint-disable-next-line space-before-function-paren
+      .then(async (result) => {
+        const { email, accessToken } = result.user;
+        if (!email) return;
+        const { user, token } = await signInOauthAPI({ email, accessToken });
+        if (!user) return;
+        setUserData({ user, token });
+        navigate("/page/status");
+      }).catch((error) => {
+        console.log(error);
+      });
   }
 
   return (
@@ -71,9 +98,25 @@ export function SignIn() {
           )}
         </ BoxForm>
 
-        <Button onClick={() => handleSubmit(onSubmit)()}>Sign In</Button>
+        {loading ?
+          <Button>
+            <CustomIcon>
+              <GiSharpAxe />
+            </ CustomIcon>
+          </Button>
+          :
+          <Button onClick={() => handleSubmit(onSubmit)()}>SIGN IN</Button>
+        }
+
+        <Button onClick={signInWithGoogle} >
+          <CustomIcon spin={false}>
+            <FcGoogle />
+          </ CustomIcon>
+          Sign in with Google
+        </Button>
       </ContainerForm>
-      <Link to="/sign-up">Sign Up</Link>
+      <Link to="/sign-up">New to here? Create an account.</Link>
     </>
   );
 }
+

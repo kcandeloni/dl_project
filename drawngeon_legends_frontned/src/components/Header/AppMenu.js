@@ -2,18 +2,16 @@ import styled from "styled-components";
 
 import { GiWhiteBook } from "react-icons/gi";
 
-import { colorSchema } from "../common/themes";
-
 export default function AppMenu() {
   return (
     <>
-      <StyledBookMenu color={colorSchema.icon} />
+      <StyledBookMenu />
     </>
   );
 }
 
 const StyledBookMenu = styled(GiWhiteBook)`
-  color: ${props => props.color};
+  color: var(--icon);
   font-size: 28px;
   cursor: pointer;
 `;

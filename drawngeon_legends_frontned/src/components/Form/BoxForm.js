@@ -6,7 +6,7 @@ export default styled.div`
   justify-content: space-between;
   margin: 8px 0;
   p{
-    color: rgb(255, 72, 72);
+    color: var(--error);
     font-size: 0.75rem;
     margin-top: 8px;
   }
@@ -19,11 +19,11 @@ export default styled.div`
     border: none;
     border-radius: 5px;
     outline: none;
-    background-color: #444444;
-    color: #eeeeee;
+    background-color: var(--backgroundDark);
+    color: var(--textInput);
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   }
   input::placeholder {
-    color: #999999;
+    color: var(--placeholder);
   }
 `;
